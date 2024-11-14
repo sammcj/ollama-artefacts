@@ -1,0 +1,4 @@
+dashscope
+modelscope_studio~=1.0.0b
+litellm
+async_generator
