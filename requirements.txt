@@ -2,3 +2,4 @@ dashscope~=1.20.14
 modelscope_studio~=1.0.0b
 litellm~=1.54.1
 async_generator~=1.10
+python-dotenv

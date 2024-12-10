@@ -4,6 +4,7 @@ from http import HTTPStatus
 from typing import Dict, List, Optional, Tuple
 import base64
 import aiohttp
+import dotenv
 
 # Import litellm and async_generator for Ollama streaming
 import litellm
@@ -15,10 +16,15 @@ import modelscope_studio.components.legacy as legacy
 import modelscope_studio.components.antd as antd
 from config import DEMO_LIST, SystemPrompt
 
+# load dotenv
+dotenv.load_dotenv()
+
 # Configuration for Ollama
 OLLAMA_HOST = os.getenv("OLLAMA_HOST", "http://localhost:11434")
 OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "qwen2.5-coder:14b-instruct-q6_K")
 MAX_TOKENS = os.getenv("MAX_TOKENS", 4096)
+OPEN_BROWSER = os.getenv("OPEN_BROWSER", "False").lower() == "true"
+
 
 History = List[Tuple[str, str]]
 Messages = List[Dict[str, str]]
@@ -352,9 +358,17 @@ with gr.Blocks(css_paths="app.css") as demo:
             clear_btn.click(clear_history, inputs=[], outputs=[history])
 
 if __name__ == "__main__":
+
+    # if running on macOS server_name=localhost, otherwise 0.0.0.0
+    if os.uname().sysname == "Darwin":
+        server_name = "localhost"
+    else:
+        server_name = "0.0.0.0"
+
     demo.queue(default_concurrency_limit=20).launch(
-        server_name="0.0.0.0",
+        server_name=server_name,
         server_port=7860,
         ssr_mode=False,
         share=False,
+        inbrowser=OPEN_BROWSER,
     )
