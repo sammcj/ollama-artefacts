@@ -22,7 +22,7 @@ dotenv.load_dotenv()
 # Configuration for Ollama
 OLLAMA_HOST = os.getenv("OLLAMA_HOST", "http://localhost:11434")
 OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "qwen2.5-coder:14b-instruct-q6_K")
-MAX_TOKENS = os.getenv("MAX_TOKENS", 4096)
+MAX_TOKENS = int(os.getenv("MAX_TOKENS", 4096))
 OPEN_BROWSER = os.getenv("OPEN_BROWSER", "False").lower() == "true"
 
 
